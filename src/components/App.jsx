@@ -1,6 +1,8 @@
 import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from '../components/VideoList.js';
 import VideoPlayer from '../components/VideoPlayer.js';
+import searchYouTube from '../lib/searchYouTube.js';
+import YOUTUBE_API_KEY from '../config/youtube.example.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,6 +11,7 @@ class App extends React.Component {
       videos: exampleVideoData,
       currentVideo: exampleVideoData[0]
     };
+    searchYouTube({q: 'react', maxResults: 5, key: YOUTUBE_API_KEY}, (data) => console.log(data));
   }
   
   
