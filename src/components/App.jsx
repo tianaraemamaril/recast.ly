@@ -2,21 +2,45 @@ import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from '../components/VideoList.js';
 import VideoPlayer from '../components/VideoPlayer.js';
 
+import YOUTUBE_API_KEY from '../config/youtube.example.js';
+import searchYouTube from '../lib/searchYouTube.js';
+
 class App extends React.Component {
   constructor(props) {
     super();
+    
     this.state = {
-      videos: exampleVideoData,
+      videos: [],
       currentVideo: exampleVideoData[0]
-    };
+    };  
   }
   
   
   playVideo(video) {
     this.setState({ currentVideo: video });
   }
-
+  
+  
+  componentDidMount() {
+    searchYouTube({
+      q: 'sleep',
+      maxResults: 5,
+      key: YOUTUBE_API_KEY
+    }, (data) => {
+      console.log(data);
+      this.setState(
+        {
+          videos: data.items,
+          currentVideo: data.items[0]
+        });
+    });/*this.state.videos = data;
+    this.state.currentVideo = this.state.videos[0];*/
+  }
+  
+  
+  
   render() {
+    //console.log(this.state.currentVideo);
     return (
       <div>
         <nav className="navbar">
