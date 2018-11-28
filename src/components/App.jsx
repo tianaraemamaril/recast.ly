@@ -1,30 +1,58 @@
 import exampleVideoData from '../data/exampleVideoData.js';
-import VideoList from '../components/VideoList.js';
-import VideoPlayer from '../components/VideoPlayer.js';
-import searchYouTube from '../lib/searchYouTube.js';
+import VideoList from './VideoList.js';
+import VideoPlayer from './VideoPlayer.js';
+import Search from './Search.js';
+
 import YOUTUBE_API_KEY from '../config/youtube.example.js';
+import searchYouTube from '../lib/searchYouTube.js';
 
 class App extends React.Component {
   constructor(props) {
     super();
+    
     this.state = {
-      videos: exampleVideoData,
+      videos: [],
       currentVideo: exampleVideoData[0]
-    };
-    searchYouTube({q: 'react', maxResults: 5, key: YOUTUBE_API_KEY}, (data) => console.log(data));
+    };  
   }
   
   
   playVideo(video) {
     this.setState({ currentVideo: video });
   }
-
+  
+  searchUpdate(e) {
+    let ev = e.nativeEvent;
+    console.log('hi');
+    console.log(ev);
+  }
+  
+  
+  componentDidMount() {
+    searchYouTube({
+      q: 'sleep',
+      maxResults: 5,
+      key: YOUTUBE_API_KEY
+    }, (data) => {
+      console.log(data);
+      this.setState(
+        {
+          videos: data.items,
+          currentVideo: data.items[0]
+        });
+    });/*this.state.videos = data;
+    this.state.currentVideo = this.state.videos[0];*/
+  }
+  
+  
+  
   render() {
+    //console.log(this.state.currentVideo);
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search onType={this.searchUpdate.bind(this)}/>
           </div>
         </nav>
         <div className="row">
