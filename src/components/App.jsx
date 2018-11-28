@@ -23,14 +23,26 @@ class App extends React.Component {
   
   searchUpdate(e) {
     let ev = e.nativeEvent;
-    console.log('hi');
-    console.log(ev);
+    
+    searchYouTube({
+      q: ev.target.value,
+      maxResults: 5,
+      key: YOUTUBE_API_KEY
+    }, (data) => {
+      console.log(data);
+      this.setState(
+        {
+          videos: data.items,
+          currentVideo: data.items[0]
+        });
+    });
+    
   }
   
   
   componentDidMount() {
     searchYouTube({
-      q: 'sleep',
+      q: 'kittens',
       maxResults: 5,
       key: YOUTUBE_API_KEY
     }, (data) => {
