@@ -10,7 +10,7 @@ describe ('Search', function() {
 
   var app, searchYouTubeStub;
   
-  describe('when rendering live data from YouTube', function() {
+  xdescribe('when rendering live data from YouTube', function() {
     beforeEach(function() {
       searchYouTubeStub = sinon.stub();
       searchYouTubeStub.onCall(0).yields(window.fakeVideoData);
